@@ -53,6 +53,7 @@ function buildTriggerLabel(
 ) {
   if (props.mode === "multiple") {
     const selected = props.selected
+    console.log("selected: ", selected)
 
     if (!selected || selected.length === 0) {
       return placeholder
