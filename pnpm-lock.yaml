@@ -29,6 +29,9 @@ importers:
       input-otp:
         specifier: ^1.4.2
         version: 1.4.2(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      jewish-date:
+        specifier: ^2.0.23
+        version: 2.0.23
       lucide-react:
         specifier: ^1.8.0
         version: 1.8.0(react@19.2.5)
@@ -2466,6 +2469,9 @@ packages:
   fuzzysort@3.1.0:
     resolution: {integrity: sha512-sR9BNCjBg6LNgwvxlBd0sBABvQitkLzoVY9MYYROQVX/FvfJ4Mai9LsGhDgd8qYdds0bY77VzYd5iuB+v5rwQQ==}
 
+  gematriya@2.0.0:
+    resolution: {integrity: sha512-i+G3iGTn/vmojZkvS0dDPcw46tREqS10mztDOVoG6AACZzqp0eOpvIYaAOqZEiH4ee0Rkgt1Sf6jWM1GobJIeg==}
+
   generator-function@2.0.1:
     resolution: {integrity: sha512-SFdFmIJi+ybC0vjlHN0ZGVGHc3lgE0DxPAT0djjVg+kjOnSqclqmj0KQ7ykTOLP6YxoqOvuAODGdcHJn+43q3g==}
     engines: {node: '>= 0.4'}
@@ -2830,6 +2836,9 @@ packages:
   iterator.prototype@1.1.5:
     resolution: {integrity: sha512-H0dkQoCa3b2VEeKQBOxFph+JAbcrQdE7KC0UkqwpLmv2EC4P41QXP+rqo9wYodACiG5/WM5s9oDApTU8utwj9g==}
     engines: {node: '>= 0.4'}
+
+  jewish-date@2.0.23:
+    resolution: {integrity: sha512-/HpSH6Zm4i6Q3UgiD694D6/yceQE+b6ZwU1wVMLMEl7EQ7EUol27NPL5qGlOHUxPk22T7H2oxCB9OWtriK0NIA==}
 
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
@@ -6600,6 +6609,8 @@ snapshots:
 
   fuzzysort@3.1.0: {}
 
+  gematriya@2.0.0: {}
+
   generator-function@2.0.1: {}
 
   gensync@1.0.0-beta.2: {}
@@ -6921,6 +6932,10 @@ snapshots:
       get-proto: 1.0.1
       has-symbols: 1.1.0
       set-function-name: 2.0.2
+
+  jewish-date@2.0.23:
+    dependencies:
+      gematriya: 2.0.0
 
   jiti@2.6.1: {}
 
