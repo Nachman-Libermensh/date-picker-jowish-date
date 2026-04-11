@@ -31,6 +31,26 @@ type HebrewDatePickerProps = ReusablePickerSelectionProps &
     todayLabel?: string
   }
 
+function getMonthStart(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1)
+}
+
+function getTodayNavigableMonth(startMonth?: Date, endMonth?: Date) {
+  const todayMonth = getMonthStart(new Date())
+  const minMonth = startMonth ? getMonthStart(startMonth) : undefined
+  const maxMonth = endMonth ? getMonthStart(endMonth) : undefined
+
+  if (minMonth && todayMonth < minMonth) {
+    return minMonth
+  }
+
+  if (maxMonth && todayMonth > maxMonth) {
+    return maxMonth
+  }
+
+  return todayMonth
+}
+
 function formatGregorianDateInHebrew(date: Date) {
   return formatJewishDateInHebrew(toJewishDate(date))
 }
@@ -53,7 +73,6 @@ function buildTriggerLabel(
 ) {
   if (props.mode === "multiple") {
     const selected = props.selected
-    console.log("selected: ", selected)
 
     if (!selected || selected.length === 0) {
       return placeholder
@@ -106,6 +125,8 @@ function HebrewDatePicker({
     defaultMonth,
     ...selectionProps
   } = props
+  const startMonth = props.startMonth
+  const endMonth = props.endMonth
 
   const [internalMonth, setInternalMonth] = React.useState<Date>(() => {
     return (
@@ -141,6 +162,12 @@ function HebrewDatePicker({
 
   React.useEffect(() => {
     if (monthProp !== undefined) {
+      setInternalMonth(monthProp)
+    }
+  }, [monthProp])
+
+  React.useEffect(() => {
+    if (monthProp !== undefined) {
       return
     }
 
@@ -152,7 +179,10 @@ function HebrewDatePicker({
   const visibleMonth = monthProp ?? internalMonth
   const setVisibleMonth = React.useCallback(
     (nextMonth: Date) => {
-      if (monthProp === undefined) {
+      const isMonthControlled =
+        monthProp !== undefined && onMonthChangeProp !== undefined
+
+      if (!isMonthControlled) {
         setInternalMonth(nextMonth)
       }
 
@@ -162,8 +192,8 @@ function HebrewDatePicker({
   )
 
   const goToToday = React.useCallback(() => {
-    setVisibleMonth(new Date())
-  }, [setVisibleMonth])
+    setVisibleMonth(getTodayNavigableMonth(startMonth, endMonth))
+  }, [endMonth, setVisibleMonth, startMonth])
 
   const triggerLabel = buildTriggerLabel(selectionProps, placeholder)
   const isEmpty = triggerLabel === placeholder

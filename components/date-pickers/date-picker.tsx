@@ -14,6 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { he } from "react-day-picker/hebrew"
 
 type DatePickerProps = ReusablePickerSelectionProps &
   Omit<
@@ -27,7 +28,41 @@ type DatePickerProps = ReusablePickerSelectionProps &
     open?: boolean
     onOpenChange?: (open: boolean) => void
     align?: React.ComponentProps<typeof PopoverContent>["align"]
+    showTodayButton?: boolean
+    todayLabel?: string
   }
+
+function getMonthStart(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1)
+}
+
+function getInitialMonthFromSelection(props: ReusablePickerSelectionProps) {
+  if (props.mode === "multiple") {
+    return props.selected?.[0]
+  }
+
+  if (props.mode === "range") {
+    return props.selected?.from ?? props.selected?.to
+  }
+
+  return props.selected
+}
+
+function getTodayNavigableMonth(startMonth?: Date, endMonth?: Date) {
+  const todayMonth = getMonthStart(new Date())
+  const minMonth = startMonth ? getMonthStart(startMonth) : undefined
+  const maxMonth = endMonth ? getMonthStart(endMonth) : undefined
+
+  if (minMonth && todayMonth < minMonth) {
+    return minMonth
+  }
+
+  if (maxMonth && todayMonth > maxMonth) {
+    return maxMonth
+  }
+
+  return todayMonth
+}
 
 function buildTriggerLabel(
   props: ReusablePickerSelectionProps,
@@ -79,9 +114,40 @@ function DatePicker({
   open: openProp,
   onOpenChange,
   align = "start",
+  showTodayButton = true,
+  todayLabel = "Today",
   ...props
 }: DatePickerProps) {
   const [internalOpen, setInternalOpen] = React.useState(false)
+  const {
+    month: monthProp,
+    onMonthChange: onMonthChangeProp,
+    defaultMonth,
+    ...selectionProps
+  } = props
+  const startMonth = props.startMonth
+  const endMonth = props.endMonth
+
+  const [internalMonth, setInternalMonth] = React.useState<Date>(() => {
+    return (
+      monthProp ??
+      defaultMonth ??
+      getInitialMonthFromSelection(selectionProps) ??
+      new Date()
+    )
+  })
+
+  const monthFromSelection = React.useMemo(() => {
+    if (selectionProps.mode === "multiple") {
+      return selectionProps.selected?.[0]
+    }
+
+    if (selectionProps.mode === "range") {
+      return selectionProps.selected?.from ?? selectionProps.selected?.to
+    }
+
+    return selectionProps.selected
+  }, [selectionProps.mode, selectionProps.selected])
 
   const open = openProp ?? internalOpen
   const setOpen = React.useCallback(
@@ -95,9 +161,44 @@ function DatePicker({
     [openProp, onOpenChange]
   )
 
-  const triggerLabel = buildTriggerLabel(props, placeholder)
+  React.useEffect(() => {
+    if (monthProp !== undefined) {
+      setInternalMonth(monthProp)
+    }
+  }, [monthProp])
+
+  React.useEffect(() => {
+    if (monthProp !== undefined) {
+      return
+    }
+
+    if (monthFromSelection) {
+      setInternalMonth(monthFromSelection)
+    }
+  }, [monthFromSelection, monthProp])
+
+  const visibleMonth = monthProp ?? internalMonth
+  const setVisibleMonth = React.useCallback(
+    (nextMonth: Date) => {
+      const isMonthControlled =
+        monthProp !== undefined && onMonthChangeProp !== undefined
+
+      if (!isMonthControlled) {
+        setInternalMonth(nextMonth)
+      }
+
+      onMonthChangeProp?.(nextMonth)
+    },
+    [monthProp, onMonthChangeProp]
+  )
+
+  const goToToday = React.useCallback(() => {
+    setVisibleMonth(getTodayNavigableMonth(startMonth, endMonth))
+  }, [endMonth, setVisibleMonth, startMonth])
+
+  const triggerLabel = buildTriggerLabel(selectionProps, placeholder)
   const isEmpty = triggerLabel === placeholder
-  const shouldAutoClose = closeOnSelect ?? props.mode !== "multiple"
+  const shouldAutoClose = closeOnSelect ?? selectionProps.mode !== "multiple"
 
   const trigger = (
     <Button
@@ -122,18 +223,39 @@ function DatePicker({
         className={cn("w-auto p-0", contentClassName)}
         align={align}
       >
-        {calendarNode}
+        <div className="flex flex-col gap-0">
+          {calendarNode}
+
+          {showTodayButton && (
+            <div className="border-t p-2">
+              <Button
+                type="button"
+                variant="secondary"
+                size="xs"
+                className="w-full"
+                onClick={goToToday}
+              >
+                {todayLabel}
+              </Button>
+            </div>
+          )}
+        </div>
       </PopoverContent>
     </Popover>
   )
 
-  if (props.mode === "multiple") {
-    const { mode, selected, onSelect, ...calendarProps } = props
+  if (selectionProps.mode === "multiple") {
+    const { mode, selected, onSelect, ...calendarProps } = selectionProps
 
     return renderWithPopover(
       <Calendar
         {...calendarProps}
+        month={visibleMonth}
+        onMonthChange={setVisibleMonth}
         mode={mode}
+        locale={he}
+        dir="rtl"
+        captionLayout="dropdown"
         selected={selected}
         onSelect={(next) => {
           onSelect?.(next as Date[] | undefined)
@@ -146,12 +268,17 @@ function DatePicker({
     )
   }
 
-  if (props.mode === "range") {
-    const { mode, selected, onSelect, ...calendarProps } = props
+  if (selectionProps.mode === "range") {
+    const { mode, selected, onSelect, ...calendarProps } = selectionProps
 
     return renderWithPopover(
       <Calendar
+        captionLayout="dropdown"
+        locale={he}
+        dir="rtl"
         {...calendarProps}
+        month={visibleMonth}
+        onMonthChange={setVisibleMonth}
         mode={mode}
         selected={selected}
         onSelect={(next) => {
@@ -165,11 +292,16 @@ function DatePicker({
     )
   }
 
-  const { selected, onSelect, ...calendarProps } = props
+  const { selected, onSelect, ...calendarProps } = selectionProps
 
   return renderWithPopover(
     <Calendar
+      dir="rtl"
+      captionLayout="dropdown"
+      locale={he}
       {...calendarProps}
+      month={visibleMonth}
+      onMonthChange={setVisibleMonth}
       mode="single"
       selected={selected}
       onSelect={(next) => {
