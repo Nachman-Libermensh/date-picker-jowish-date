@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Lightbulb } from "lucide-react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
@@ -446,6 +447,39 @@ export default function InstructionsPage() {
               shadcn
             </Link>{" "}
             ולשלב את הרכיבים של המדריך הזה מיד אחרי יצירת הפרויקט.
+          </AlertDescription>
+        </Alert>
+
+        <Alert className="border-amber-500/60 bg-amber-100/80 dark:border-amber-400/40 dark:bg-amber-900/35">
+          <Lightbulb className="size-4 text-amber-700 dark:text-amber-200" />
+          <AlertTitle className="text-amber-900 dark:text-amber-100">
+            טוב לדעת
+          </AlertTitle>
+          <AlertDescription className="space-y-2 text-amber-900/90 dark:text-amber-100/90">
+            <p>
+              הקומפוננטה בנויה כך שנעשה מקסימום שימוש ביכולות הנתמכות ישירות
+              מהקופסה על ידי react-day-picker.
+            </p>
+            <p>
+              במימוש מינימלי מספיק לייבא DayPicker מתת-הנתיב
+              react-day-picker/hebrew ולהוסיף formatters להצגה עברית.
+            </p>
+            <p>
+              רוב הלוגיקה כבר נתמכת ישירות על ידי הספריה, ואת התיעוד הרשמי ניתן
+              למצוא כאן:{" "}
+              <Link
+                href="https://daypicker.dev/localization/hebrew"
+                target="_blank"
+                rel="noreferrer"
+              >
+                daypicker.dev/localization/hebrew
+              </Link>
+              .
+            </p>
+            <p>
+              למותר לציין שכל props שנתמך בספריה ניתן להעביר גם לקומפוננטה הזו,
+              שעוטפת את DayPicker בסגנון shadcn/ui.
+            </p>
           </AlertDescription>
         </Alert>
 
