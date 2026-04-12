@@ -405,23 +405,21 @@ export default function InstructionsPage() {
             <Button asChild variant="outline" size="sm">
               <Link href="/">חזרה לדוגמאות</Link>
             </Button>
-            <Button asChild size="sm">
-              <Link
-                href="https://ui.shadcn.com/docs/rtl/next"
-                target="_blank"
-                rel="noreferrer"
-              >
-                דף ההשראה העיצובי
-              </Link>
-            </Button>
           </div>
         </header>
 
         <Alert className="border-emerald-600/50 bg-emerald-100/80 dark:border-emerald-400/40 dark:bg-emerald-900/30">
           <AlertTitle>מתחילים פרויקט חדש?</AlertTitle>
           <AlertDescription>
-            אם הפרויקט חדש לגמרי, אפשר להתחיל עם תבנית RTL של shadcn ולשלב את
-            הרכיבים של המדריך הזה מיד אחרי יצירת הפרויקט.
+            אם הפרויקט חדש לגמרי, אפשר להתחיל עם תבנית RTL של{" "}
+            <Link
+              href="https://ui.shadcn.com/docs/rtl/next"
+              target="_blank"
+              rel="noreferrer"
+            >
+              shadcn
+            </Link>{" "}
+            ולשלב את הרכיבים של המדריך הזה מיד אחרי יצירת הפרויקט.
           </AlertDescription>
         </Alert>
 
