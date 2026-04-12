@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { CodeSnippet } from "@/components/docs/code-snippet"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -11,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { CodeBlock } from "@/components/ui/code-block"
 import { Separator } from "@/components/ui/separator"
 
 type StepCardProps = {
@@ -22,6 +22,32 @@ type StepCardProps = {
 }
 
 const installCommand = String.raw`pnpm add react-day-picker jewish-date`
+
+const basicUsageCode = String.raw`"use client"
+
+import * as React from "react"
+import { formatJewishDateInHebrew, toJewishDate } from "jewish-date"
+
+import { HebrewDatePicker } from "@/components/date-pickers/hebrew-date-picker"
+
+export default function BasicHebrewDatePickerUsage() {
+  const [selectedDate, setSelectedDate] = React.useState<Date>()
+
+  return (
+    <div className="max-w-xs space-y-3">
+      <HebrewDatePicker
+        selected={selectedDate}
+        onSelect={setSelectedDate}
+        todayLabel="היום"
+      />
+
+      <p className="text-sm text-muted-foreground">
+        נבחר: {selectedDate ? formatJewishDateInHebrew(toJewishDate(selectedDate)) : "לא נבחר"}
+      </p>
+    </div>
+  )
+}
+`
 
 const hebrewCalendarCode = String.raw`"use client"
 
@@ -431,8 +457,8 @@ export default function InstructionsPage() {
             title="התקנת התלויות react-day-picker ו-jewish-date"
             description="השלב הראשון הוא התקנת ספריית הלוח והמרת תאריכים עבריים."
           >
-            <CodeSnippet
-              title="Terminal"
+            <CodeBlock
+              filename="terminal"
               language="bash"
               code={installCommand}
             />
@@ -447,8 +473,8 @@ export default function InstructionsPage() {
             title="יצירת קומפוננטת HebrewCalendar"
             description="צרו את הקובץ components/ui/hebrew-calendar.tsx והדביקו את הקוד הבא."
           >
-            <CodeSnippet
-              title="components/ui/hebrew-calendar.tsx"
+            <CodeBlock
+              filename="components/ui/hebrew-calendar.tsx"
               language="tsx"
               code={hebrewCalendarCode}
             />
@@ -458,12 +484,24 @@ export default function InstructionsPage() {
             step="03"
             title="הוספת קומפוננטת HebrewDatePicker"
             description="צרו את הקובץ components/date-pickers/hebrew-date-picker.tsx והדביקו את הקוד הבא."
-            isLast
           >
-            <CodeSnippet
-              title="components/date-pickers/hebrew-date-picker.tsx"
+            <CodeBlock
+              filename="components/date-pickers/hebrew-date-picker.tsx"
               language="tsx"
               code={hebrewDatePickerCode}
+            />
+          </StepCard>
+
+          <StepCard
+            step="04"
+            title="דוגמת שימוש בסיסית בקומפוננטה"
+            description="לאחר יצירת הקבצים, אפשר להשתמש מיד ב-HebrewDatePicker בכל עמוד Client."
+            isLast
+          >
+            <CodeBlock
+              filename="app/basic-usage-example.tsx"
+              language="tsx"
+              code={basicUsageCode}
             />
           </StepCard>
         </section>
