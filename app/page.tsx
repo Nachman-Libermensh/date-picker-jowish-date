@@ -1,12 +1,14 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { format } from "date-fns"
 import { formatJewishDateInHebrew, toJewishDate } from "jewish-date"
 import type { DateRange } from "react-day-picker"
 
 import { DatePicker } from "@/components/date-pickers/date-picker"
 import { HebrewDatePicker } from "@/components/date-pickers/hebrew-date-picker"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -161,6 +163,11 @@ export default function Page() {
               מעבר בין טאבים, דוגמאות רגילות ליחיד/רבים/טווח, ודוגמאות מתקדמות
               עם מגבלות בחירה וכפתור היום.
             </CardDescription>
+            <div className="pt-2">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/instructions">מעבר לעמוד הנחיות</Link>
+              </Button>
+            </div>
           </CardHeader>
         </Card>
 

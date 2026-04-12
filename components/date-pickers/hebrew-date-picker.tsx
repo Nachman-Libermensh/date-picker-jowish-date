@@ -71,8 +71,6 @@ function buildTriggerLabel(
   props: ReusablePickerSelectionProps,
   placeholder: string
 ) {
-  console.log("props.selected: ", props.selected)
-
   if (props.mode === "multiple") {
     const selected = props.selected
 
