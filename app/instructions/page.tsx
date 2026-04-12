@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Lightbulb } from "lucide-react"
+import { Lightbulb, Terminal } from "lucide-react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card"
 import { CodeBlock } from "@/components/ui/code-block"
 import { Separator } from "@/components/ui/separator"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 type StepCardProps = {
   step: string
@@ -22,7 +23,12 @@ type StepCardProps = {
   children: React.ReactNode
 }
 
-const installCommand = String.raw`pnpm add react-day-picker jewish-date`
+const installCommands = {
+  pnpm: String.raw`pnpm add react-day-picker jewish-date`,
+  npm: String.raw`npm install react-day-picker jewish-date`,
+  yarn: String.raw`yarn add react-day-picker jewish-date`,
+  bun: String.raw`bun add react-day-picker jewish-date`,
+} as const
 
 const basicUsageCode = String.raw`"use client"
 
@@ -409,6 +415,52 @@ function StepCard({
   )
 }
 
+function InstallCommandTabs() {
+  const packageManagers = [
+    { key: "pnpm", label: "pnpm", command: installCommands.pnpm },
+    { key: "npm", label: "npm", command: installCommands.npm },
+    { key: "yarn", label: "yarn", command: installCommands.yarn },
+    { key: "bun", label: "bun", command: installCommands.bun },
+  ] as const
+
+  return (
+    <div className="overflow-hidden rounded-lg border border-border/70 bg-zinc-900 dark:bg-zinc-950">
+      <Tabs defaultValue="pnpm" className="gap-0">
+        <div className="flex items-center gap-2 border-b border-white/10 px-3 py-1 dark:border-white/15">
+          <div className="flex size-4 items-center justify-center rounded-[1px] bg-white/20 dark:bg-white/25">
+            <Terminal className="size-3 text-zinc-100" />
+          </div>
+
+          <TabsList
+            variant="line"
+            className="h-7 rounded-none bg-transparent p-0 text-zinc-300 dark:text-zinc-300"
+          >
+            {packageManagers.map((manager) => (
+              <TabsTrigger
+                key={manager.key}
+                value={manager.key}
+                className="h-7 border border-transparent bg-transparent pt-0.5 text-xs text-zinc-300 shadow-none! hover:border-white/15 hover:bg-white/10 hover:text-zinc-50 dark:text-zinc-300 dark:hover:border-white/20 dark:hover:bg-white/12 dark:hover:text-zinc-100 data-active:border-white/30 data-active:bg-white! data-active:text-zinc-900 dark:data-active:border-zinc-500 dark:data-active:bg-zinc-200! dark:data-active:text-zinc-950"
+              >
+                {manager.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
+
+        {packageManagers.map((manager) => (
+          <TabsContent
+            key={manager.key}
+            value={manager.key}
+            className="mt-0 p-4"
+          >
+            <CodeBlock filename="" language="bash" code={manager.command} />
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
+  )
+}
+
 export default function InstructionsPage() {
   return (
     <div className="min-h-svh bg-[radial-gradient(1200px_500px_at_100%_-120px,oklch(0.97_0_0),transparent)] px-4 py-8 md:px-6 md:py-12">
@@ -491,11 +543,7 @@ export default function InstructionsPage() {
             title="התקנת התלויות react-day-picker ו-jewish-date"
             description="השלב הראשון הוא התקנת ספריית הלוח והמרת תאריכים עבריים."
           >
-            <CodeBlock
-              filename="terminal"
-              language="bash"
-              code={installCommand}
-            />
+            <InstallCommandTabs />
             <p className="text-sm text-muted-foreground">
               אחרי ההתקנה יש לך DayPicker עם תמיכה בלוח עברי דרך import מהנתיב
               react-day-picker/hebrew, ופונקציות פורמט עברי מתוך jewish-date.
