@@ -173,9 +173,12 @@ export default function Page() {
               מעבר בין טאבים, דוגמאות רגילות ליחיד/רבים/טווח, ודוגמאות מתקדמות
               עם מגבלות בחירה וכפתור היום.
             </CardDescription>
-            <div className="pt-2">
+            <div className="flex flex-wrap items-center gap-2 pt-2">
               <Button asChild variant="outline" size="sm">
                 <Link href="/instructions">מעבר לעמוד הנחיות</Link>
+              </Button>
+              <Button asChild variant="secondary" size="sm">
+                <Link href="/full-calendar">לוח שנה מלא</Link>
               </Button>
             </div>
           </CardHeader>

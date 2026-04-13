@@ -6,6 +6,7 @@ Next.js + shadcn/ui demo for Hebrew and Gregorian date pickers.
 
 - `/` Main showcase page with Hebrew/Gregorian date picker use-cases.
 - `/instructions` Docs-style guide page for creating a Hebrew date picker.
+- `/full-calendar` Full-screen calendar view with Hebrew/Gregorian dual display.
 
 ## Development
 
