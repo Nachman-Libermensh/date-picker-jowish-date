@@ -7,16 +7,15 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { DirectionProvider } from "@/components/ui/direction"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
-
+export const metadata = {
+  title: "תאריך עברי - רכיב תאריך עברי ל-React",
+  description:
+    "רכיב תאריך עברי ל-React עם תמיכה בש RTL, כולל תיעוד והדגמות שימוש.",
+}
 const notoSansHebrew = Noto_Sans_Hebrew({
   subsets: ["hebrew"],
   variable: "--font-sans",
 })
-
-// const fontMono = Geist_Mono({
-//   subsets: ["latin"],
-//   variable: "--font-mono",
-// })
 
 export default function RootLayout({
   children,

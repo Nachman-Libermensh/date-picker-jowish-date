@@ -425,7 +425,7 @@ function InstallCommandTabs() {
 
   return (
     <div className="overflow-hidden rounded-lg border border-border/70 bg-zinc-900 dark:bg-zinc-950">
-      <Tabs defaultValue="pnpm" className="gap-0">
+      <Tabs dir="ltr" defaultValue="pnpm" className="gap-0">
         <div className="flex items-center gap-2 border-b border-white/10 px-3 py-1 dark:border-white/15">
           <div className="flex size-4 items-center justify-center rounded-[1px] bg-white/20 dark:bg-white/25">
             <Terminal className="size-3 text-zinc-100" />
