@@ -1,0 +1,22 @@
+import type { MetadataRoute } from "next"
+
+import { getCanonicalRoute } from "@/lib/seo"
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date()
+
+  return [
+    {
+      url: getCanonicalRoute("/"),
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
+      url: getCanonicalRoute("/instructions"),
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+  ]
+}

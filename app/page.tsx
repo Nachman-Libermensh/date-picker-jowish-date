@@ -156,6 +156,16 @@ export default function Page() {
   return (
     <div className="min-h-svh bg-muted/40 p-6">
       <div className="mx-auto w-full max-w-6xl space-y-4">
+        <header className="space-y-2">
+          <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
+            Date Picker עברי ולועזי ל-React
+          </h1>
+          <p className="max-w-3xl text-sm text-muted-foreground md:text-base">
+            דף דוגמאות מלא ל-Hebrew Date Picker ול-Gregorian Date Picker עם
+            תמיכה ב-RTL, בחירה יחידה/מרובה/טווח, וחסימות חכמות לבחירת תאריכים.
+          </p>
+        </header>
+
         <Card>
           <CardHeader>
             <CardTitle>דוגמאות DatePicker עברי ולועזי</CardTitle>

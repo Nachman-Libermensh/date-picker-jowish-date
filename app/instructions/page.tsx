@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { Lightbulb, Terminal } from "lucide-react"
 
@@ -14,6 +15,33 @@ import {
 import { CodeBlock } from "@/components/ui/code-block"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getCanonicalRoute } from "@/lib/seo"
+
+const instructionsCanonicalUrl = getCanonicalRoute("/instructions")
+
+export const metadata: Metadata = {
+  title: "מדריך הטמעה: Hebrew Date Picker ב-Next.js",
+  description:
+    "מדריך מעשי להטמעת Hebrew Date Picker ב-Next.js עם react-day-picker/hebrew ו-jewish-date, כולל קטעי קוד מוכנים.",
+  keywords: [
+    "Hebrew Date Picker tutorial",
+    "Next.js Hebrew calendar",
+    "react-day-picker hebrew",
+    "jewish-date examples",
+    "מדריך date picker עברי",
+  ],
+  alternates: {
+    canonical: instructionsCanonicalUrl,
+  },
+  openGraph: {
+    type: "article",
+    locale: "he_IL",
+    url: instructionsCanonicalUrl,
+    title: "מדריך הטמעה: Hebrew Date Picker ב-Next.js",
+    description:
+      "מדריך קצר ומעשי: התקנה, יצירת HebrewCalendar ובניית HebrewDatePicker מלא עם Popover.",
+  },
+}
 
 type StepCardProps = {
   step: string
